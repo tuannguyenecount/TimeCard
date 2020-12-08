@@ -27,67 +27,35 @@
             </div>
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    @if (LoggedProfile.IsAdmin == false)
-                    {
-                        <li class="nav-item has-treeview menu-open">
-                            <a href="@Url.Action("Index", "Home")" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem lại lịch sử điểm danh">
-                                <i class="nav-icon fas fab fa-clock"></i>
-                                <p>Lịch sử điểm danh</p>
-                            </a>
-                        </li>
-                        <li class="nav-item has-treeview menu-open" id="menuItemCheckOut">
-                            @{
-                                TimeSpan end = new TimeSpan(17, 0, 0);
-                                if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
-                                {
-                                    end = new TimeSpan(12, 0, 0);
-                                }
-                            }
-                            @if (DateTime.Now.TimeOfDay >= end)
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem lại lịch sử điểm danh">
+                            <i class="nav-icon fas fab fa-clock"></i>
+                            <p>Lịch sử điểm danh</p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview menu-open" id="menuItemCheckOut">
+                        @{
+                            TimeSpan end = new TimeSpan(17, 0, 0);
+                            if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
                             {
-                                <a href="#" onclick="checkOut()" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Check out ra về">
-                                    <i class="nav-icon fas fab fa-sign-out-alt"></i>
-                                    <p>Check out ra về</p>
-                                </a>
+                                end = new TimeSpan(12, 0, 0);
                             }
-                            else
-                            {
-                                <a href="#" onclick="$('#modalConfirmEditNote').modal();" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Check out ra về">
-                                    <i class="nav-icon fas fab fa-sign-out-alt"></i>
-                                    <p>Check out ra về</p>
-                                </a>
-                            }
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item has-treeview menu-open">
-                            <a href="@Url.Action("Index", "TimeCard",new { area="Admin" })" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem lại lịch sử điểm danh">
-                                <i class="nav-icon fas fab fa-clock"></i>
-                                <p>Quản trị điểm danh</p>
+                        }
+                        @if (DateTime.Now.TimeOfDay >= end)
+                        {
+                            <a href="#" onclick="checkOut()" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Check out ra về">
+                                <i class="nav-icon fas fab fa-sign-out-alt"></i>
+                                <p>Check out ra về</p>
                             </a>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Báo cáo">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>Báo cáo <i class="right fas fa-angle-left"></i></p>
+                        }
+                        else
+                        {
+                            <a href="#" onclick="$('#modalConfirmEditNote').modal();" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Check out ra về">
+                                <i class="nav-icon fas fab fa-sign-out-alt"></i>
+                                <p>Check out ra về</p>
                             </a>
-                            <ul class="nav nav-treeview" style="display: none;">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Báo cáo công việc">
-                                        <i class="fa fa-file nav-icon" aria-hidden="true"></i>
-                                        <p>Báo cáo ngày đi trễ</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Báo cáo công việc">
-                                        <i class="fa fa-file nav-icon" aria-hidden="true"></i>
-                                        <p>Báo cáo ngày về sớm</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    }
+                        }
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -25,48 +25,6 @@ namespace TimeCard.Controllers
             return View(model);
         }
 
-        //[NonAction]
-        //private string GetUserIPFromAPI()
-        //{
-        //    string URL = "https://api.myip.com/";
-        //    string urlParameters = "";
-
-        //    HttpClient client = new HttpClient();
-        //    client.BaseAddress = new Uri(URL);
-             
-        //    HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
-        //    string result = string.Empty;
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        // Parse the response body.
-        //        var stringResponse = response.Content.ReadAsStringAsync().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
-        //        var objectResonse = JsonConvert.DeserializeObject<dynamic>(stringResponse);
-        //        result = objectResonse.ip;
-        //    }
-        //    else
-        //    {
-        //        result = "Error";
-        //    }
-
-        //    // Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
-        //    client.Dispose();
-
-        //    return result;
-        //}
-
-        //[NonAction]
-        //private string GetUserIP()
-        //{
-        //    string ipList = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-
-        //    if (!string.IsNullOrEmpty(ipList))
-        //    {
-        //        return ipList.Split(',')[0];
-        //    }
-
-        //    return Request.ServerVariables["REMOTE_ADDR"];
-        //}
-
         public static string GetLocalIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -141,7 +99,7 @@ namespace TimeCard.Controllers
             Authentication.SignOut();
             ViewBag.IsLoggingOut = true;
             DataSessionManager.RemoveAllData();
-            return RedirectToAction("Checkin", "Account");
+            return RedirectToAction("Checkin", "Account",new { area = "" });
         }
     }
 }

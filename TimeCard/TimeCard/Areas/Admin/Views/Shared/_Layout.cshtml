@@ -42,9 +42,8 @@
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed @*sidebar-collapse*@">
     <div class="wrapper">
         @Html.Partial("~/Views/Shared/TopMenu.cshtml")
-        @Html.Partial("~/Views/Shared/LeftSideMenu.cshtml")
-       
-          
+        @Html.Partial("~/Areas/Admin/Views/Shared/LeftSideMenu.cshtml")
+
         <div class="content-wrapper">
             <div class="content-header"></div>
             @RenderBody()
@@ -83,7 +82,7 @@
     <script src="/Content/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
     <script src="/Content/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <script>
-        var URL_LOGOFF = '@Url.Action("LogOff", "Account")';
+        var URL_LOGOFF = '@Url.Action("LogOff", "Account",new { area="" })';
         var UserProfile = @Html.Raw(Json.Encode(profile));
     </script>
 

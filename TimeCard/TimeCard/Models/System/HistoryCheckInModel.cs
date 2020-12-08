@@ -147,5 +147,30 @@ namespace TimeCard.Models.System
                 return "#00a65a";
             }
         }
+        public double TotalMinuteLate
+        {
+            get
+            {
+                if (DateCheckInDecrypt == null)
+                    return 0;
+                DateTime timeStart = new DateTime(DateCheckInDecrypt.Value.Year, DateCheckInDecrypt.Value.Month, DateCheckInDecrypt.Value.Day, 8, 0, 59);
+                return (DateCheckInDecrypt.Value - timeStart).TotalMinutes > 0 ? (DateCheckInDecrypt.Value - timeStart).TotalMinutes : 0; 
+            }
+        }
+        public double TotalMinuteLeaveEarly
+        {
+            get
+            {
+                if (DateCheckInDecrypt == null || DateCheckOutDecrypt == null)
+                    return 0;
+                
+                DateTime timeEnd = new DateTime(DateCheckInDecrypt.Value.Year, DateCheckInDecrypt.Value.Month, DateCheckInDecrypt.Value.Day, 17, 0, 0);
+                if(DateCheckInDecrypt.Value.DayOfWeek == DayOfWeek.Saturday)
+                {
+                    timeEnd = new DateTime(DateCheckInDecrypt.Value.Year, DateCheckInDecrypt.Value.Month, DateCheckInDecrypt.Value.Day, 12, 0, 0);
+                }
+                return (timeEnd - timeEnd).TotalMinutes > 0 ? (timeEnd - timeEnd).TotalMinutes : 0;
+            }
+        }
     }
 }

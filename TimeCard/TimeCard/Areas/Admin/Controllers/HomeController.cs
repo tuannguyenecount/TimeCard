@@ -1,17 +1,12 @@
-﻿using TimeCard.Framework;
-using TimeCard.Helper;
+﻿using TimeCard.Helper;
 using TimeCard.Models;
 using TimeCard.Security;
 using TimeCard.Services;
 using System;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Web.Mvc;
 using TimeCard.Controllers;
 using System.Collections.Generic;
 using TimeCard.Models.System;
-using TimeCard.Models.eOffice;
 using TimeCard.Models.Admin;
 
 namespace TimeCard.Areas.Admin.Controllers
