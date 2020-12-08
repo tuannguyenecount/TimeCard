@@ -1,0 +1,271 @@
+﻿
+@{
+    ViewBag.Title = "Lịch Sử Điểm Danh";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/Content/AdminLTE/plugins/fullcalendar/main.min.css" />
+    <link rel="stylesheet" href="~/Content/AdminLTE/plugins/fullcalendar-daygrid/main.min.css" />
+    <link rel="stylesheet" href="~/Content/AdminLTE/plugins/fullcalendar-timegrid/main.min.css" />
+    <link rel="stylesheet" href="~/Content/AdminLTE/plugins/fullcalendar-bootstrap/main.min.css" />
+    <style>
+        .fc-day {
+            cursor: pointer !important;
+        }
+
+        .fc-day-grid-event .fc-content {
+            max-height: 100px;
+            overflow: auto;
+            white-space: normal;
+        }
+    </style>
+}
+
+<!-- Main content -->
+<section class="content">
+    <!-- /.container-fluid -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-12">
+                <h5 class="text-danger">Hướng dẫn: </h5>
+                <ul>
+                    <li>Click vào ngày bất kỳ để chỉnh sửa thông tin của ngày đó.</li>
+                </ul>
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <form class="form-inline" action="#" id="frmSearch">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label>Chọn nhân viên</label>
+                        <select name="Employee" class="form-control select2bs4" placeholder="Chọn nhân viên muốn xem">
+                            <option value="">-- Chọn nhân viên muốn xem--</option>
+                        </select>
+                    </div>
+                    &nbsp;&nbsp;
+                    <button type="button" onclick="loadData($('[name=Employee]').val())" class="btn btn-primary">Xem lịch sử điểm danh</button>
+                </form>
+
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                        <!-- THE CALENDAR -->
+                        <div id="calendar"></div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+<!-- /.content -->
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h4 class="modal-title">Sửa Thông Tin</h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <form action="@Url.Action("EditCheckInOut","Home")" method="post" id="frmEditEditCheckInOut">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="HistoryId" value="" id="HistoryId" />
+                    <div class="form-group">
+                        <label for="DateCheckIn">Giờ vào làm:</label>
+                        <input type="text" class="form-control" value="" name="DateCheckIn" id="DateCheckIn">
+                    </div>
+                    <div class="form-group">
+                        <label for="DateCheckOut">Giờ ra về:</label>
+                        <input type="text" class="form-control" value="" name="DateCheckOut" id="DateCheckOut">
+                    </div>
+                    <div class="form-group" id="divLyDoDiTre">
+                        <label for="NoteCheckIn">Lý do đi trễ:</label>
+                        <input id="NoteCheckIn" class="form-control" name="NoteCheckIn" />
+                    </div>
+                    <div class="form-group" id="divLyDoVeSom">
+                        <label for="NoteCheckIn">Lý do về sớm:</label>
+                        <input id="NoteCheckOut" class="form-control" name="NoteCheckOut" />
+                    </div>
+                    <button type="submit" class="btn bg-success">Xác nhận</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script src="/Content/AdminLTE/plugins/moment/moment.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/fullcalendar/main.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/fullcalendar-daygrid/main.js"></script>
+    <script src="/Content/AdminLTE/plugins/fullcalendar-timegrid/main.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/fullcalendar-interaction/main.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/fullcalendar-bootstrap/main.js"></script>
+    <script src="/Content/AdminLTE/plugins/fullcalendar/locales/vi.js"></script>
+
+    <script type="text/javascript">
+        var historyCheckIn = [];
+        function editInformation(i) {
+            showPopupEditCheckInOut(historyCheckIn[i]);
+        }
+        function SetValueToForm(objHistory) {
+            $('#frmEditEditCheckInOut').find('#HistoryId').val(objHistory.HistoryId);
+            if (objHistory.DateCheckInDecrypt != undefined) {
+                $('#frmEditEditCheckInOut').find('#DateCheckIn').val(formatDateTime(objHistory.DateCheckInDecrypt, 'dmy'));
+            }
+            if (objHistory.DateCheckOutDecrypt != undefined) {
+                $('#frmEditEditCheckInOut').find('#DateCheckOut').val(formatDateTime(objHistory.DateCheckOutDecrypt, 'dmy'));
+            }
+            $('#frmEditEditCheckInOut').find('#NoteCheckIn').val(objHistory.NoteCheckIn);
+            $('#frmEditEditCheckInOut').find('#NoteCheckOut').val(objHistory.NoteCheckOut);
+        }
+        function showPopupEditCheckInOut(objHistory) {
+            SetValueToForm(objHistory);
+            $('#myModal').modal();
+        }
+        function loadData(userName) {
+            _call({
+                    type: 'POST',
+                    url: '@Url.Action("GetHistoryCheckInByUserName")',
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        UserName: userName
+                    },
+                    beforeSend: function () {
+                        _lockScreen();
+                    },
+                    success: function (ret) {
+                        _unlockScreen();
+                        $('#calendar').html('');
+                        var data = [];
+                        if (ret.ErrorCode == 1) {
+                            var res = JSON.parse(ret.Data);
+                            historyCheckIn = res;
+                            for (var i in res) {
+                                var obj = {};
+                                obj.title = res[i].Title;
+                                var fromDate_tem = new Date(res[i].DateCheckInDecrypt);
+                                var toDate_tem = new Date(res[i].DateCheckOutDecrypt);
+                                var fromDate = new Date(fromDate_tem.getFullYear(), fromDate_tem.getMonth(), fromDate_tem.getDate(), fromDate_tem.getHours(), fromDate_tem.getMinutes());
+                                var toDate = new Date(toDate_tem.getFullYear(), toDate_tem.getMonth(), toDate_tem.getDate(), toDate_tem.getHours(), toDate_tem.getMinutes());
+                                obj.start = fromDate;
+                                obj.end = toDate;
+                                obj.allDay = false;
+                                obj.backgroundColor = res[i].BackgroundColor;
+                                obj.borderColor = res[i].BackgroundColor;
+                                obj.url = "javascript:editInformation(" + i + ")";
+                                data.push(obj);
+                            }
+                        }
+                        var calendarEl = document.getElementById('calendar');
+                        var Calendar = FullCalendar.Calendar;
+                        var calendar = new Calendar(calendarEl, {
+                            locale: 'vi',
+                            plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+                            header: {
+                                left: 'prev,next today',
+                                center: 'title',
+
+                            },
+                            'themeSystem': 'bootstrap',
+                            eventRender: function (event, element) {
+                                $(event.el).tooltip({ title: event.el.text, container: "body", placement: 'top' });
+                            },
+                            events: data,
+                            editable: false,
+                            droppable: false
+                        });
+                        calendar.render();
+                    },
+                    error: function (xhr, status, error) {
+                        _unlockScreen();
+                        _alert(error, 'warning');
+                    }
+                });
+
+            }
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        });
+        $(document).on('click', '.fc-day', function () {
+            var date = $(this).attr('data-date');
+            var objHistory = historyCheckIn.filter(x => formatDate(x.DateCheckInDecrypt,'ymd') == date)[0];
+            if (objHistory != null) {
+                showPopupEditCheckInOut(objHistory);
+            }
+        });
+        $(document).on('submit', '#frmSearch', function (e) {
+            e.preventDefault();
+            loadData($('[name=Employee]').val());
+        });
+        $(document).on('submit', '#frmEditEditCheckInOut', function (e) {
+            e.preventDefault();
+            _call({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    beforeSend: function () {
+                        _lockScreen();
+                    },
+                    success: function (result, status, xhr) {
+                        _unlockScreen();
+                        $('#myModal').modal('toggle');
+                        if (result == '1') {
+                            loadData($('[name=Employee]').val());
+                        } else {
+                            _alert(result, 'warning');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        _unlockScreen();
+                        _alert(error, 'warning');
+                    }
+                });
+        });
+        $(function () {
+            function loadEmployees() {
+                _call({
+                    type: "POST",
+                    url: "@Url.Action("GetAllUser")",
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    async: false,
+                    beforeSend: function () {
+                        _lockScreen();
+                    },
+                    success: function (result, status, xhr) {
+                        _unlockScreen();
+                        if (result.success) {
+                            if (result.Data != null && result.Data.length > 0) {
+                                var str = "<option value=''>------ Chọn nhân viên -------</option>";
+                                var tem = "";
+                                $('select[name="Employee"]').empty();
+                                for (var i = 0; i < result.Data.length; i++) {
+                                    tem += "<option value='" + result.Data[i].UserName + "' >" + result.Data[i].FullName + " - " + result.Data[i].UserName + "</option>";
+                                }
+                                $('select[name="Employee"]').append(str + tem);
+                            }
+                        } else {
+                            _alert(result.message, 'warning');
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        _unlockScreen();
+                        _alert(error, 'warning');
+                    }
+                });
+            }
+
+            loadEmployees();
+        })
+    </script>
+}

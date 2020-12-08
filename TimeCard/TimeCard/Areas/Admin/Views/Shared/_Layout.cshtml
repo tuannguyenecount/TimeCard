@@ -1,0 +1,147 @@
+﻿@using TimeCard.Security 
+@{
+    var UserProfile = SharedContext.Current.LoggedProfile;
+    var profile = new {
+        UserName = UserProfile.UserName,
+        Title = UserProfile.SpecializeBranch!=null ? UserProfile.SpecializeBranch.TitleName : "",
+        BranchLevel = UserProfile.SpecializeBranch != null ? UserProfile.SpecializeBranch.BranchLevel : -1,
+        BranchType = UserProfile.SpecializeBranch != null ? UserProfile.SpecializeBranch.BranchType : ""
+    };
+
+    string HomePage = (string) ViewBag.DefaultPageAfterLogin;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewBag.Title</title>
+    <link href="/Content/css/roboto-font.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/Content/AdminLTE/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" />
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" />
+
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/toastr/toastr.min.css">
+
+    <link href="/Content/eOfficeOCB.css?v=@ViewBag.VersionScript" rel="stylesheet" />
+    <style>
+        .fc-event{
+            font-size:1em;
+        }
+    </style>
+    @RenderSection("css", required: false)
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed @*sidebar-collapse*@">
+    <div class="wrapper">
+        @Html.Partial("~/Views/Shared/TopMenu.cshtml")
+        @Html.Partial("~/Views/Shared/LeftSideMenu.cshtml")
+       
+          
+        <div class="content-wrapper">
+            <div class="content-header"></div>
+            @RenderBody()
+        </div>
+
+        <aside class="control-sidebar control-sidebar-dark"></aside>
+        <footer class="main-footer">
+            <div class="pull-left hidden-xs">
+                <strong>&copy; @DateTime.Now.Year - Ban Phát triển và Vận hành BPM</strong>
+            </div>
+        </footer>
+    </div>
+    <div id="loader-wrapper">
+    </div>
+    <script src="/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <script src="/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="/Content/AdminLTE/dist/js/adminlte.js"></script>
+    <script src="/Content/AdminLTE/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+    <script src="/Content/AdminLTE/plugins/raphael/raphael.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/moment/moment.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/moment/locale/vi.js"></script>
+    <script src="/Content/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- Toastr -->
+    <script src="/Content/AdminLTE/plugins/toastr/toastr.min.js"></script>
+    <!-- DataTables -->
+    <script src="/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+    <script src="/Content/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <script src="/Content/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script>
+        var URL_LOGOFF = '@Url.Action("LogOff", "Account")';
+        var UserProfile = @Html.Raw(Json.Encode(profile));
+    </script>
+
+    <script type="text/javascript" src="/Scripts/anhnh2.js?v=@ViewBag.VersionScript"></script>
+    <script type="text/javascript" src="/Scripts/ocbscript.js?v=@ViewBag.VersionScript"></script>
+    <script type="text/javascript">
+        
+        var Default = {
+            controlsidebarSlide: true,
+            scrollbarTheme: 'os-theme-light',
+            scrollbarAutoHide: 'l'
+        };
+        if (typeof $.fn.overlayScrollbars !== 'undefined') {
+            $('aside.main-sidebar').overlayScrollbars({
+                className: Default.scrollbarTheme,
+                sizeAutoCapable: true,
+                scrollbars: {
+                    autoHide: Default.scrollbarAutoHide,
+                    clickScrolling: true
+                }
+            });
+        }
+        function formatDate(date, format) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+            if (format == 'ymd') {
+                return [year, month, day].join('-');
+            }
+            else {
+                return [day, month, year].join('-');
+            }
+        }
+
+        function formatDateTime(date, format) {
+            var d = new Date(date),
+                hour = '' + d.getHours(),
+                minute = '' + d.getMinutes();
+            if (hour.length < 2)
+                hour = '0' + hour;
+            if (minute.length < 2)
+                minute = '0' + minute;
+            var s = formatDate(date, format);
+            if (format == 'ymd') {
+                return s + ' ' + [hour, minute].join(':');
+            }
+            else {
+                return s + ' ' + [hour, minute].join(':');
+            }
+        }
+        
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

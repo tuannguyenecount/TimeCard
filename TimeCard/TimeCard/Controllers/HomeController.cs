@@ -13,6 +13,10 @@ namespace TimeCard.Controllers
     {
         public ActionResult Index()
         {
+            if (SharedContext.Current.LoggedProfile.IsAdmin)
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
             return View();
         }
 

@@ -74,7 +74,7 @@ namespace TimeCard.Controllers
 
             if (LoggedUser == null || LoggedUser.IsAdmin == false)
             {
-                filterContext.Result = RedirectToAction("Logoff", "Account", new { errMsg = errMsg });
+                filterContext.Result = RedirectToAction("Logoff", "Account", new { errMsg = errMsg, area="" });
             }
             else
             {

@@ -180,6 +180,23 @@ namespace TimeCard.Services
             }
         }
 
+        public void EditInformationCheckInOut(HistoryCheckInModel historyCheckInModel, string userName)
+        {
+            try
+            {
+                DBHelper db = new DBHelper(GlobalInfo.PKG_TMS_CHECKINOUT + ".sp_editInformation_CheckInOut", userName)
+                    .addParamOutput("oResult")
+                    .addParam("pUserName", userName)
+                    .addParam("pJson", JsonHelper.Serialize(historyCheckInModel))
+                    .ExecuteStore();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Current.WriteLogs(ex.ToString(), "SystemService.EditInformationCheckInOut", userName);
+                throw new Exception(ex.ToString());
+            }
+        }
+
 
         #endregion
     }
