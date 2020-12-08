@@ -1,0 +1,95 @@
+﻿@using TimeCard.Security
+@{
+    var mn = SharedContext.Current.MenuList;
+    LoginProfile LoggedProfile = ViewBag.LoggedProfile as LoginProfile;
+    string HomePage = (string)ViewBag.DefaultPageAfterLogin;
+}
+
+
+@if (Request.IsAuthenticated)
+{
+    <aside class="main-sidebar sidebar-dark-blue elevation-4 sidebar-no-expand ocb-success left_sidebar" style="background-color: RGB(3,138,69)">
+        <!-- Brand Logo -->
+        <a href="@HomePage" class="brand-link navbar-white hide-sm brand_custom">
+            <img src="/Images/logo.png" alt="eOffice" class="brand-image d-hidden-mini" style="opacity: 1" />
+            <img src="/Images/logoIcon.png" alt="eOffice" class="brand-image img-fluid img-circle img-fluid d-hidden-mini" style="opacity:1;display:none;" id="SmallIcon" />
+            <span class="brand-text title_logo">| OCB Office</span>
+        </a>
+        <div class="sidebar">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex border-bottom-0">
+                <div class="user-block d-hidden-mini user_sidebar">
+                    <img class="img-circle" src="/Images/user2-160x160.jpg" alt="User Image" />
+                    <span class="username">
+                        <a href="#" class="">@LoggedProfile.FullName</a>
+                    </span>
+                    <span class="description text-wrap">@(LoggedProfile.SpecializeBranch!=null ? LoggedProfile.SpecializeBranch.TitleName : "")</span>
+                </div>
+            </div>
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    @if (LoggedProfile.IsAdmin == false)
+                    {
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem lại lịch sử điểm danh">
+                                <i class="nav-icon fas fab fa-clock"></i>
+                                <p>Lịch sử điểm danh</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview menu-open" id="menuItemCheckOut">
+                            @{
+                                TimeSpan end = new TimeSpan(17, 0, 0);
+                                if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
+                                {
+                                    end = new TimeSpan(12, 0, 0);
+                                }
+                            }
+                            @if (DateTime.Now.TimeOfDay >= end)
+                            {
+                                <a href="#" onclick="checkOut()" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Check out ra về">
+                                    <i class="nav-icon fas fab fa-sign-out-alt"></i>
+                                    <p>Check out ra về</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#" onclick="$('#modalConfirmEditNote').modal();" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Check out ra về">
+                                    <i class="nav-icon fas fab fa-sign-out-alt"></i>
+                                    <p>Check out ra về</p>
+                                </a>
+                            }
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="@Url.Action("Index", "TimeCard",new { area="Admin" })" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem lại lịch sử điểm danh">
+                                <i class="nav-icon fas fab fa-clock"></i>
+                                <p>Quản trị điểm danh</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Báo cáo">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>Báo cáo <i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: none;">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Báo cáo công việc">
+                                        <i class="fa fa-file nav-icon" aria-hidden="true"></i>
+                                        <p>Báo cáo ngày đi trễ</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Báo cáo công việc">
+                                        <i class="fa fa-file nav-icon" aria-hidden="true"></i>
+                                        <p>Báo cáo ngày về sớm</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </aside>
+}

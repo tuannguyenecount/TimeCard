@@ -1,0 +1,52 @@
+﻿body, html {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+a {
+    color: #038a45;
+}
+    a:hover, a:active, a:focus {
+        color: #04a251;
+    }
+.login-bg {
+    background: url('/Images/bg-login.jpg') no-repeat #000;
+    background-position: center;
+    background-size: cover;
+}
+.box_login {
+    background: #ffffff;
+    max-width: 450px;
+    padding: 30px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+    .box_login .box-title {
+        color: #424242;
+        padding: 11px 0 30px 0;
+        font-weight: 400;
+    }
+    .box_login .form-group {
+        position: relative;
+    }
+    .box_login .login_icon {
+        position: absolute;
+        top: 12px;
+        left: 11px;
+        font-size: 20px;
+        color: #717171;
+    }
+    .box_login .form-control {
+        padding: 23px 20px 23px 40px;
+    }
+    .box_login .btn {
+        padding: 12px 10px 13px 10px;
+        border-radius: 5px;
+        background: #038a45;
+        border: #038a45;
+    }
+        .box_login .btn:hover, .box_login .btn:active, .box_login .btn:focus {
+            background: #04a251;
+            border: #04a251;
+        }
+    .box_login .login-box-msg {
+    }

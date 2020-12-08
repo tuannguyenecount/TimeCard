@@ -1,0 +1,106 @@
+﻿@using TimeCard.Helper
+@model TimeCard.Models.CheckInUser
+@{
+    Layout = null;
+    ViewBag.Title = "Điểm Danh";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewBag.Title</title>
+    <link href="/Content/css/roboto-font.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/Content/AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/Content/AdminLTE/dist/css/adminlte.min.css">
+    <link href="/Content/eOfficeOCB.css" rel="stylesheet" />
+    <link href="/Content/css/login.css" rel="stylesheet" />
+</head>
+    <body class="login-bg">
+
+        <div class="row w-100 h-100 wrap_login">
+            <div class="ocb-margin-auto">
+                <div class="">
+                    <div class="box box-success box_login">
+                        <div class="box-header with-border" style="text-align:center">
+                            <div><img src="/Images/logo.png" style="width:50%" /></div>
+                            <h3 class="box-title">@ViewBag.Title</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body no-padding">
+                            <div class="login-box-body">
+                                <form id="frmCheckin" class="form" method="post">
+                                    <div class="form-group has-feedback">
+                                        <input class="form-control" type="text" placeholder="Nhập tài khoản" id="Username" name="Username" value="@Model.Username" required />
+                                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                        <i class="fas fa-user login_icon"></i>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <input class="form-control" type="password" placeholder="Nhập mật khẩu" id="Password" name="Password" value="@Model.Password" required />
+                                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                        <i class="fas fa-lock login_icon"></i>
+                                    </div>
+                                    @{ 
+                                        TimeSpan start = new TimeSpan(8, 1, 0); //8 o'clock
+                                    }
+                                    @if (DateTime.Now.TimeOfDay >= start)
+                                    {
+                                    <div class="form-group has-feedback">
+                                        <input name="NoteCheckIn" placeholder="Ghi chú lý do đi trễ nếu có..." class="form-control" id="NoteCheckIn" />
+                                        <span class="glyphicon glyphicon-note form-control-feedback"></span>
+                                        <i class="fas fa-sticky-note login_icon"></i>
+                                    </div>
+                                    }
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-block btn-flat" type="submit">Xác nhận</button>
+                                    </div>
+                                    <p class="login-box-msg text-danger">
+                                        @if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+                                        {
+                                            @ViewBag.ErrorMessage
+                                        }
+                                    </p>
+                                    <p>
+                                        Bạn gặp vấn đề khi điểm danh? Vui lòng liên hệ <a href="mailto:ocboffice@ocb.com.vn?subject=Dang%20nhap%20he%20thong%20report%20that%20bai%20- @Request.SiteURL()">ocboffice@ocb.com.vn</a>
+                                    </p>
+                                    <input type="hidden" name="ReturnUrl" value="@ViewBag.returnUrl" />
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/Scripts/jquery-3.5.1.min.js"></script>
+        <script src="/Content/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/Content/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <script>
+            $(function () {
+                $('#frmCheckin').submit(function (e) {
+                    var user = _replace_all_tag($('#Username').val());
+                    var pass = _replace_all_tag($('#Password').val());
+
+                    $('#Username').val(user);
+                    $('#Password').val(pass);
+
+                    if (user == null || user.length == 0 || pass == null || pass.length == 0) {
+                        return false;
+                    }
+                });
+            });
+            function _replace_all_tag(str) {
+                if (!Array.isArray(str)) {
+                    return str.replace(/<\/p>/gi, "\n")
+                        .replace(/<br\/?>/gi, "\n")
+                        .replace(/<\/?[^>]+(>|$)/g, "");
+                }
+                return str;
+            }
+        </script>
+
+    </body>
+</html>
