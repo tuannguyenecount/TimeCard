@@ -163,7 +163,7 @@ namespace TimeCard.Services
             }
         }
 
-        public void EditNoteCheckInCheckOut(HistoryCheckInModel historyCheckInModel)
+        public void EditNote(HistoryCheckInModel historyCheckInModel)
         {
             try
             {
@@ -180,11 +180,11 @@ namespace TimeCard.Services
             }
         }
 
-        public void EditInformationCheckInOut(HistoryCheckInModel historyCheckInModel, string userName)
+        public void SaveInformationCheckInOut(HistoryCheckInModel historyCheckInModel, string userName)
         {
             try
             {
-                DBHelper db = new DBHelper(GlobalInfo.PKG_TMS_CHECKINOUT + ".sp_editInformation_CheckInOut", userName)
+                DBHelper db = new DBHelper(GlobalInfo.PKG_TMS_CHECKINOUT + ".sp_saveInformation_CheckInOut", userName)
                     .addParamOutput("oResult")
                     .addParam("pUserName", userName)
                     .addParam("pJson", JsonHelper.Serialize(historyCheckInModel))
@@ -192,7 +192,7 @@ namespace TimeCard.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Current.WriteLogs(ex.ToString(), "SystemService.EditInformationCheckInOut", userName);
+                LogHelper.Current.WriteLogs(ex.ToString(), "SystemService.SaveInformationCheckInOut", userName);
                 throw new Exception(ex.ToString());
             }
         }

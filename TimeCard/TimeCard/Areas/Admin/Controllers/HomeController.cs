@@ -69,36 +69,63 @@ namespace TimeCard.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCheckInOut(HistoryCheckInModel historyCheckInModel)
+        public ActionResult SaveCheckInOut(HistoryCheckInModel historyCheckInModel)
         {
-            var historyData = SystemService.Current.GetHistoryCheckInByHistoryId(historyCheckInModel.HistoryId, LoginProfile.UserName, out ErrorResult);
-            if (historyData == null)
-            {
-                ModelState.AddModelError("", "Dữ liệu này không tồn tại!");
-            }
             if (ModelState.IsValid)
             {
                 ErrorResult = new ErrorModel();
                 try
                 {
                     DateTime dateCheckIn, dateCheckOut;
-                    if(DateTime.TryParseExact(historyCheckInModel.DateCheckIn,"dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                    if (!string.IsNullOrEmpty(historyCheckInModel.DateCheckIn))
                     {
-                        historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                        historyCheckInModel.DateCheckIn = historyCheckInModel.DateCheckIn.Trim();
+                        if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        {
+                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy HH:m", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        {
+                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy H:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        {
+                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy H:m", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        {
+                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else
+                        {
+                            return Content("Thời gian cần đúng định dạng dd-MM-yyyy HH:mm");
+                        }
                     }
-                    else
+                    if (!string.IsNullOrEmpty(historyCheckInModel.DateCheckOut))
                     {
-                        return Content("Thời gian cần đúng định dạng dd-MM-yyyy HH:mm");
+                        historyCheckInModel.DateCheckOut = historyCheckInModel.DateCheckOut.Trim();
+                        if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        {
+                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy HH:m", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        {
+                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy H:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        {
+                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy H:m", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        {
+                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                        }
+                        else
+                        {
+                            return Content("Thời gian cần đúng định dạng dd-MM-yyyy HH:mm");
+                        }
                     }
-                    if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
-                    {
-                        historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
-                    }
-                    else
-                    {
-                        return Content("Thời gian cần đúng định dạng dd-MM-yyyy HH:mm");
-                    }
-                    SystemService.Current.EditInformationCheckInOut(historyCheckInModel, LoginProfile.UserName);
+                    SystemService.Current.SaveInformationCheckInOut(historyCheckInModel, LoginProfile.UserName);
                     return Content("1");
                 }
                 catch (Exception ex)

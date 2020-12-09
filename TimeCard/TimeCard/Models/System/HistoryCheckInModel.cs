@@ -47,6 +47,7 @@ namespace TimeCard.Models.System
         }
         public string NoteCheckIn { get; set; }
         public string NoteCheckOut { get; set; }
+        public string Note { get; set; }
         public bool IsLate
         {
             get
@@ -128,6 +129,10 @@ namespace TimeCard.Models.System
                 if (!string.IsNullOrEmpty(NoteCheckOut))
                 {
                     result += "Lý do ra về sớm: " + NoteCheckOut + ".<br/>";
+                }
+                if (!string.IsNullOrEmpty(Note))
+                {
+                    result += "Ghi chú: " + Note + ".<br/>";
                 }
                 return result;
             }

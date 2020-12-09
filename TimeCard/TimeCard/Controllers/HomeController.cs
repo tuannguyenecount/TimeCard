@@ -49,7 +49,7 @@ namespace TimeCard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditNote([Bind(Include = "HistoryId,NoteCheckIn,NoteCheckOut")]HistoryCheckInModel historyCheckInModel, int IsCheckOut)
+        public ActionResult EditNote([Bind(Include = "HistoryId,NoteCheckIn,NoteCheckOut,Note")]HistoryCheckInModel historyCheckInModel, int IsCheckOut)
         {
             var historyData = SystemService.Current.GetHistoryCheckInByHistoryId(historyCheckInModel.HistoryId, SharedContext.Current.LoggedProfile.UserName, out ErrorResult);
             if(historyData == null)
@@ -69,12 +69,12 @@ namespace TimeCard.Controllers
                     if (IsCheckOut == 1)
                     {
                         SystemService.Current.CheckOut(historyData.UserName, historyData.DateCheckIn);
-                        SystemService.Current.EditNoteCheckInCheckOut(historyCheckInModel);
+                        SystemService.Current.EditNote(historyCheckInModel);
                         return RedirectToAction("Logoff", "Account");
                     }
                     else
                     {
-                        SystemService.Current.EditNoteCheckInCheckOut(historyCheckInModel);
+                        SystemService.Current.EditNote(historyCheckInModel);
                     }
                     TempData["SuccessMessage"] = "Cập nhật ghi chú thành công.";
                     return RedirectToAction("Index");

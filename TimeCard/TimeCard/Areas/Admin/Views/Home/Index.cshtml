@@ -71,7 +71,7 @@
                 <h4 class="modal-title">Sửa Thông Tin</h4>
             </div>
             <div class="modal-body" id="modal-body">
-                <form action="@Url.Action("EditCheckInOut","Home")" method="post" id="frmEditEditCheckInOut">
+                <form action="@Url.Action("SaveCheckInOut","Home")" method="post" id="frmSaveCheckInOut">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="HistoryId" value="" id="HistoryId" />
                     <div class="form-group">
@@ -89,6 +89,10 @@
                     <div class="form-group" id="divLyDoVeSom">
                         <label for="NoteCheckIn">Lý do về sớm:</label>
                         <input id="NoteCheckOut" class="form-control" name="NoteCheckOut" />
+                    </div>
+                    <div class="form-group" id="divLyDoVeSom">
+                        <label for="Note">Ghi chú khác:</label>
+                        <input id="Note" class="form-control" name="Note" />
                     </div>
                     <button type="submit" class="btn bg-success">Xác nhận</button>
                 </form>
@@ -112,20 +116,27 @@
     <script type="text/javascript">
         var historyCheckIn = [];
         function editInformation(i) {
-            showPopupEditCheckInOut(historyCheckIn[i]);
+            showPopupSaveCheckInOut(historyCheckIn[i]);
         }
         function SetValueToForm(objHistory) {
-            $('#frmEditEditCheckInOut').find('#HistoryId').val(objHistory.HistoryId);
+            $('#frmSaveCheckInOut').find('#HistoryId').val(objHistory.HistoryId);
             if (objHistory.DateCheckInDecrypt != undefined) {
-                $('#frmEditEditCheckInOut').find('#DateCheckIn').val(formatDateTime(objHistory.DateCheckInDecrypt, 'dmy'));
+                $('#frmSaveCheckInOut').find('#DateCheckIn').val(formatDateTime(objHistory.DateCheckInDecrypt, 'dmy'));
+            }
+            else {
+                $('#frmSaveCheckInOut').find('#DateCheckIn').val('');
             }
             if (objHistory.DateCheckOutDecrypt != undefined) {
-                $('#frmEditEditCheckInOut').find('#DateCheckOut').val(formatDateTime(objHistory.DateCheckOutDecrypt, 'dmy'));
+                $('#frmSaveCheckInOut').find('#DateCheckOut').val(formatDateTime(objHistory.DateCheckOutDecrypt, 'dmy'));
             }
-            $('#frmEditEditCheckInOut').find('#NoteCheckIn').val(objHistory.NoteCheckIn);
-            $('#frmEditEditCheckInOut').find('#NoteCheckOut').val(objHistory.NoteCheckOut);
+            else {
+                $('#frmSaveCheckInOut').find('#DateCheckOut').val('');
+            }
+            $('#frmSaveCheckInOut').find('#NoteCheckIn').val(objHistory.NoteCheckIn);
+            $('#frmSaveCheckInOut').find('#NoteCheckOut').val(objHistory.NoteCheckOut);
+            $('#frmSaveCheckInOut').find('#Note').val(objHistory.Note);
         }
-        function showPopupEditCheckInOut(objHistory) {
+        function showPopupSaveCheckInOut(objHistory) {
             SetValueToForm(objHistory);
             $('#myModal').modal();
         }
@@ -197,15 +208,24 @@
         $(document).on('click', '.fc-day', function () {
             var date = $(this).attr('data-date');
             var objHistory = historyCheckIn.filter(x => formatDate(x.DateCheckInDecrypt,'ymd') == date)[0];
-            if (objHistory != null) {
-                showPopupEditCheckInOut(objHistory);
+            if (objHistory == null) {
+                var d = new Date();
+                objHistory = {
+                    HistoryId: 0,
+                    DateCheckInDecrypt: d,
+                    DateCheckOutDecrypt: d,
+                    NoteCheckIn: '',
+                    NoteCheckOut: '',
+                    Note: ''
+                };
             }
+            showPopupSaveCheckInOut(objHistory);
         });
         $(document).on('submit', '#frmSearch', function (e) {
             e.preventDefault();
             loadData($('[name=Employee]').val());
         });
-        $(document).on('submit', '#frmEditEditCheckInOut', function (e) {
+        $(document).on('submit', '#frmSaveCheckInOut', function (e) {
             e.preventDefault();
             _call({
                     type: 'POST',

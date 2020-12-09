@@ -61,7 +61,8 @@ namespace TimeCard.Controllers
                         {
                             IP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
                         }
-                        var checkHaveCheckIn = SystemService.Current.GetHistoryCheckInByUserName(model.Username, out ErrorResult).Any(x => x.DateCheckInDecrypt != null && x.DateCheckInDecrypt.Value.Date == DateTime.Today.Date);
+                        var lst = SystemService.Current.GetHistoryCheckInByUserName(model.Username, out ErrorResult);
+                        var checkHaveCheckIn = lst.Any(x => x.DateCheckInDecrypt != null && x.DateCheckInDecrypt.Value.Date == DateTime.Today.Date);
                         if (checkHaveCheckIn == false)
                         {
                             string dateCheckIn = Crypt.Encrypt(DateTime.Now.ToString("ddMMyyyyHHmmss"));

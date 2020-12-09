@@ -59,7 +59,7 @@
                             <input type="hidden" name="IsCheckOut" value="0" id="IsCheckOut" />
                             <div class="form-group">
                                 <label for="DateCheckIn">Ngày:</label>
-                                <input type="text" class="form-control" readonly value=""  id="DateCheckIn">
+                                <input type="text" class="form-control" readonly value="" id="DateCheckIn">
                             </div>
                             <div class="form-group" id="divLyDoDiTre">
                                 <label for="NoteCheckIn">Lý do đi trễ:</label>
@@ -68,6 +68,10 @@
                             <div class="form-group" id="divLyDoVeSom">
                                 <label for="NoteCheckIn">Lý do về sớm:</label>
                                 <input id="NoteCheckOut" class="form-control" name="NoteCheckOut" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Note">Ghi chú khác:</label>
+                                <input id="Note" class="form-control" name="Note" />
                             </div>
                             <button type="submit" class="btn bg-success">Xác nhận</button>
                         </form>
@@ -187,6 +191,7 @@
             $('#frmEditNote').find('#DateCheckIn').val(formatDate(objHistory.DateCheckInDecrypt.substr(0, 10), 'dmy'));
             $('#frmEditNote').find('#NoteCheckIn').val(objHistory.NoteCheckIn);
             $('#frmEditNote').find('#NoteCheckOut').val(objHistory.NoteCheckOut);
+            $('#frmEditNote').find('#Note').val(objHistory.Note);
             if (objHistory.IsLate == true) {
                 $('#divLyDoDiTre').show();
             }
