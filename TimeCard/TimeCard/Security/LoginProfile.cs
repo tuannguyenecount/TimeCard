@@ -45,7 +45,10 @@ namespace TimeCard.Security
                 return ret; ;
             } 
         }
-        public List<eOfficeBranch> BranchList { get; set; }
+        public List<eOfficeBranch> BranchList
+        {
+            get;set;
+        }
         private static bool ADValidate(string userId, string pwd)
         {
             bool ret = false;

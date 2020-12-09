@@ -8,6 +8,7 @@ using TimeCard.Controllers;
 using System.Collections.Generic;
 using TimeCard.Models.System;
 using TimeCard.Models.Admin;
+using TimeCard.Models.eOffice;
 
 namespace TimeCard.Areas.Admin.Controllers
 {
@@ -25,10 +26,17 @@ namespace TimeCard.Areas.Admin.Controllers
             ErrorResult = new ErrorModel();
             bool success = false;
             string message = "";
-            List<AdminUser> listUser = new List<AdminUser>();
+            List<eOfficeEmployee> listUser = new List<eOfficeEmployee>();
             try
             {
-                listUser = AdminService.current.AdminUserGet(GetLoggedUserName(), out ErrorResult);
+                if(LoginProfile.BranchList == null)
+                {
+                    LoginProfile.BranchList = EOfficeService.current.GetBranchForUser(LoginProfile.UserName, out ErrorResult);
+                }
+                foreach (var branchItem in LoginProfile.BranchList)
+                {
+                    listUser.AddRange(EOfficeService.current.GetUserBranchTree(branchItem.BranchId, LoginProfile.UserName, out ErrorResult));
+                }
                 success = true;
                 message = "success";          
             }

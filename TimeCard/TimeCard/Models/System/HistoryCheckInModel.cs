@@ -4,6 +4,7 @@ namespace TimeCard.Models.System
 {
     public class HistoryCheckInModel
     {
+        private string _note;
         public int HistoryId { get; set; }
         public string UserName { get; set; }
         public string IP { get; set; }
@@ -47,7 +48,21 @@ namespace TimeCard.Models.System
         }
         public string NoteCheckIn { get; set; }
         public string NoteCheckOut { get; set; }
-        public string Note { get; set; }
+        public string Note
+        {
+            get
+            {
+                if(DateCheckInDecrypt != null && DateCheckInDecrypt.Value.Date != DateTime.Today.Date && DateCheckOutDecrypt == null)
+                {
+                    return "Check out tự động. " + (_note ?? string.Empty).Replace("Check out tự động","");
+                }
+                return _note;
+            }
+            set
+            {
+                _note = value;
+            }
+        }
         public bool IsLate
         {
             get
@@ -132,7 +147,7 @@ namespace TimeCard.Models.System
                 }
                 if (!string.IsNullOrEmpty(Note))
                 {
-                    result += "Ghi chú: " + Note + ".<br/>";
+                    result += "Ghi chú: " + Note + "<br/>";
                 }
                 return result;
             }
@@ -152,17 +167,17 @@ namespace TimeCard.Models.System
                 return "#00a65a";
             }
         }
-        public double TotalMinuteLate
+        public int TotalMinuteLate
         {
             get
             {
                 if (DateCheckInDecrypt == null)
                     return 0;
                 DateTime timeStart = new DateTime(DateCheckInDecrypt.Value.Year, DateCheckInDecrypt.Value.Month, DateCheckInDecrypt.Value.Day, 8, 0, 59);
-                return (DateCheckInDecrypt.Value - timeStart).TotalMinutes > 0 ? (DateCheckInDecrypt.Value - timeStart).TotalMinutes : 0; 
+                return (DateCheckInDecrypt.Value - timeStart).TotalMinutes > 0 ? (int)(DateCheckInDecrypt.Value - timeStart).TotalMinutes : 0; 
             }
         }
-        public double TotalMinuteLeaveEarly
+        public int TotalMinuteLeaveEarly
         {
             get
             {
@@ -174,7 +189,7 @@ namespace TimeCard.Models.System
                 {
                     timeEnd = new DateTime(DateCheckInDecrypt.Value.Year, DateCheckInDecrypt.Value.Month, DateCheckInDecrypt.Value.Day, 12, 0, 0);
                 }
-                return (timeEnd - timeEnd).TotalMinutes > 0 ? (timeEnd - timeEnd).TotalMinutes : 0;
+                return (timeEnd - DateCheckOutDecrypt.Value).TotalMinutes > 0 ? (int)(timeEnd - DateCheckOutDecrypt.Value).TotalMinutes : 0;
             }
         }
     }
