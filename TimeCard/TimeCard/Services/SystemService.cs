@@ -53,18 +53,30 @@ namespace TimeCard.Services
 
         #region Check in
 
-        public ErrorModel Checkin(string userName, string ip, string dateCheckIn, string noteCheckin, out ErrorModel errorModel)
+        private string GetIp()
+        {
+            string IP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(IP))
+            {
+                IP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
+            return IP;
+        }
+
+        public ErrorModel Checkin(string userName, string noteCheckin, out ErrorModel errorModel)
         {
             errorModel = new ErrorModel();
             try
             {
+                string dateCheckIn = Crypt.Encrypt(DateTime.Now.ToString("ddMMyyyyHHmmss"));
+
                 DBHelper db = new DBHelper(GlobalInfo.PKG_TMS_CHECKINOUT + ".sp_checkin", userName)
                     .addParamOutput("oResult")
                     .addParam("pUserName", userName)
                     .addParam("pJson", JsonHelper.Serialize(new
                     {
                         UserName = userName,
-                        IP = ip,
+                        IPCheckIn = GetIp(),
                         DateCheckIn = dateCheckIn,
                         NoteCheckIn = noteCheckin
                     }))
@@ -152,7 +164,8 @@ namespace TimeCard.Services
                     .addParam("pJson", JsonHelper.Serialize(new { 
                         UserName = userName,
                         DateCheckIn = sDateCheckIn,
-                        DateCheckOut = sDateCheckOut
+                        DateCheckOut = sDateCheckOut,
+                        IPCheckOut = GetIp()
                     }))
                     .ExecuteStore();
             }

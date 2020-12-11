@@ -70,7 +70,7 @@ namespace TimeCard.Controllers
                     {
                         SystemService.Current.CheckOut(historyData.UserName, historyData.DateCheckIn);
                         SystemService.Current.EditNote(historyCheckInModel);
-                        return RedirectToAction("Logoff", "Account");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {

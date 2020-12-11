@@ -7,7 +7,8 @@ namespace TimeCard.Models.System
         private string _note;
         public int HistoryId { get; set; }
         public string UserName { get; set; }
-        public string IP { get; set; }
+        public string IPCheckIn { get; set; }
+        public string IPCheckOut { get; set; }
         public string DateCheckIn { get; set; }
         public string DateCheckOut { get; set; }
         public Nullable<DateTime> DateCheckInDecrypt

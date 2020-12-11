@@ -24,13 +24,15 @@ namespace TimeCard.Areas.Admin.Controllers
                 yield return new DateTime(year, month, day);
             }
         }
+
+        [NonAction]
         async Task SetValueToSheet(IXLWorksheet ws, eOfficeEmployee user)
         {
             ws.Cell("B2").Value = "CHI TIẾT CHẤM CÔNG CỦA " + user.FullName.ToUpper();
             int year = DateTime.Today.Year;
             int month = DateTime.Today.Month;
             int days = DateTime.DaysInMonth(year, month);
-            var rngTable = ws.Range("B2:L" + (4 + days));
+            var rngTable = ws.Range("B2:M" + (4 + days));
             rngTable.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
             rngTable.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
             List<HistoryCheckInModel> historyCheckInModels = SystemService.Current.GetHistoryCheckInByUserName(user.UserName, out ErrorResult);
@@ -61,6 +63,8 @@ namespace TimeCard.Areas.Admin.Controllers
                     rngTable.Cell(row, 8).Value = historyItem.TotalMinuteLeaveEarly;
                     rngTable.Cell(row, 9).Value = historyItem.NoteCheckOut;
                     rngTable.Cell(row, 10).Value = historyItem.Note;
+                    rngTable.Cell(row, 11).Value = historyItem.IPCheckIn;
+                    rngTable.Cell(row, 12).Value = historyItem.IPCheckOut;
                 }
                 row++;
             }
@@ -73,9 +77,11 @@ namespace TimeCard.Areas.Admin.Controllers
             rngTable.Row(row).Style.Fill.BackgroundColor = XLColor.LightGray;
             ws.Columns(1, 11).AdjustToContents();
         }
+
         public async Task<ActionResult> Index()
         {
-            LoginProfile.BranchList = EOfficeService.current.GetBranchForUser(LoginProfile.UserName, out ErrorResult);
+            if(LoginProfile.BranchList == null)
+                LoginProfile.BranchList = EOfficeService.current.GetBranchForUser(LoginProfile.UserName, out ErrorResult);
             List<eOfficeEmployee> listUser = new List<eOfficeEmployee>();
             foreach (var branchItem in LoginProfile.BranchList)
             {

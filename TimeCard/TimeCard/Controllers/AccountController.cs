@@ -25,19 +25,6 @@ namespace TimeCard.Controllers
             return View(model);
         }
 
-        public static string GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
-        }
-
         [HttpPost]
         public ActionResult Checkin(CheckInUser model)
         {
@@ -56,17 +43,12 @@ namespace TimeCard.Controllers
                     }
                     else
                     {
-                        string IP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-                        if (string.IsNullOrEmpty(IP))
-                        {
-                            IP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-                        }
+                        
                         var lst = SystemService.Current.GetHistoryCheckInByUserName(model.Username, out ErrorResult);
                         var checkHaveCheckIn = lst.Any(x => x.DateCheckInDecrypt != null && x.DateCheckInDecrypt.Value.Date == DateTime.Today.Date);
                         if (checkHaveCheckIn == false)
                         {
-                            string dateCheckIn = Crypt.Encrypt(DateTime.Now.ToString("ddMMyyyyHHmmss"));
-                            SystemService.Current.Checkin(model.Username, IP, dateCheckIn, model.NoteCheckIn, out ErrorResult);
+                            SystemService.Current.Checkin(model.Username, model.NoteCheckIn, out ErrorResult);
                         }
                         ViewBag.ErrorResult = ErrorResult;
                         Authentication.SignOn(model.Username);
