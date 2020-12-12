@@ -78,7 +78,14 @@ namespace TimeCard.Areas.Admin.Controllers
             ws.Columns(1, 11).AdjustToContents();
         }
 
-        public async Task<ActionResult> Index()
+        public ViewResult Index()
+        {
+            return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> ExportExcel(int Month, int Year)
         {
             if(LoginProfile.BranchList == null)
                 LoginProfile.BranchList = EOfficeService.current.GetBranchForUser(LoginProfile.UserName, out ErrorResult);
@@ -93,8 +100,8 @@ namespace TimeCard.Areas.Admin.Controllers
             }
             System.IO.File.Copy(Server.MapPath("~/Content/Reports/TimeCardDetail.xlsx"), Server.MapPath("~/Content/Reports/TimeCardDetailTemp.xlsx"), true);
             var wb = new XLWorkbook(Server.MapPath("~/Content/Reports/TimeCardDetailTemp.xlsx")); 
-            int year = DateTime.Now.Year;
-            string title = "LỊCH SỬ CHẤM CÔNG THÁNG " + DateTime.Today.ToString("MM") + " NĂM " + year;
+            string month = Month < 10 ? "0" + Month.ToString() : Month.ToString();
+            string title = "LỊCH SỬ CHẤM CÔNG THÁNG " + month + " NĂM " + Year;
             List<Task> tasks = new List<Task>();
             IXLWorksheet wsTemplate;
             wb.TryGetWorksheet("Template", out wsTemplate);

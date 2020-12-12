@@ -2313,6 +2313,7 @@
     <Content Include="Areas\Admin\Views\Shared\LeftSideMenu.cshtml" />
     <Content Include="Content\Reports\TimeCardDetail.xlsx" />
     <Content Include="Content\Reports\TimeCardDetailTemp.xlsx" />
+    <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -2439,7 +2440,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Report\" />
     <Folder Include="Temp\" />
   </ItemGroup>
   <ItemGroup>

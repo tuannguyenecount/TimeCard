@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Báo Cáo Chấm Công";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    
+}
+
+<!-- Main content -->
+<section class="content">
+    <!-- /.container-fluid -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-12">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <form class="form-inline" action="@Url.Action("ExportExcel")" method="post" id="frmExportExcel">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label>Chọn tháng</label>
+                        <select name="Month" class="form-control" required>
+                            @for (int i = 1; i <= DateTime.Today.Month; i++)
+                            {
+                                <option value="@i" @(i == DateTime.Today.Month ? "selected" : "")>@i</option>
+                            }
+                        </select>
+                    </div>
+                    &nbsp; &nbsp;
+                    <div class="form-group">
+                        <label>Chọn năm</label>
+                        <select name="Year" class="form-control" required>
+                            @for (int i = 2020; i <= DateTime.Today.Year; i++)
+                            {
+                                <option value="@i" @(i == DateTime.Today.Year ? "selected" : "")>@i</option>
+                            }
+                        </select>
+                    </div>
+                    &nbsp;&nbsp;
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-excel"></i> Xuất File Excel</button>
+                </form>
+                <div>&nbsp;</div>
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                        <div class="col-md-12">
+                            <br/>
+                            <p class="text-danger">Lưu ý: Thời gian xuất file có thể kéo dài 3-5 phút.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+<!-- /.content -->
+ 
+@section scripts{
+   <script>
+      
+    </script>
+}
