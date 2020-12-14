@@ -84,7 +84,7 @@ namespace TimeCard.Models.System
                     return null;
                 }
                 TimeSpan end = new TimeSpan(17, 0, 0); //17 o'clock
-                if(DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
+                if(DateCheckOutDecrypt.Value.DayOfWeek == DayOfWeek.Saturday)
                 {
                     end = new TimeSpan(12, 0, 0);
                 }

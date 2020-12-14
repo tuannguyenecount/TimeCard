@@ -11,10 +11,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/12/2020 09:23:25</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Index.cshtml">
-      <publishTime>12/12/2020 11:51:09</publishTime>
+      <publishTime>12/12/2020 11:58:14</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/LeftSideMenu.cshtml">
-      <publishTime>12/09/2020 13:24:54</publishTime>
+      <publishTime>12/12/2020 11:57:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
       <publishTime>12/08/2020 16:07:47</publishTime>
@@ -314,10 +314,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:04</publishTime>
     </File>
     <File Include="bin/TimeCard.dll">
-      <publishTime>12/12/2020 09:21:04</publishTime>
+      <publishTime>12/14/2020 08:19:18</publishTime>
     </File>
     <File Include="bin/TimeCard.pdb">
-      <publishTime>12/12/2020 09:21:04</publishTime>
+      <publishTime>12/14/2020 08:19:18</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>12/01/2020 09:13:05</publishTime>

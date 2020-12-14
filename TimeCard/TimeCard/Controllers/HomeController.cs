@@ -13,7 +13,7 @@ namespace TimeCard.Controllers
     {
         public ActionResult Index()
         {
-            if (SharedContext.Current.LoggedProfile.IsAdmin)
+            if (SharedContext.Current.LoggedProfile.IsAdmin && (LoginProfile.UserName == "toandv1" || LoginProfile.UserName == "toandv2"))
             {
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
