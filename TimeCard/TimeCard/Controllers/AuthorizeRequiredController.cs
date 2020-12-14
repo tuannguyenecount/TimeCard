@@ -71,15 +71,16 @@ namespace TimeCard.Controllers
             ViewBag.IsPopup = "1".Equals(Request["popup"]);
 
             var LoggedUser = SharedContext.Current.LoggedProfile;
+            string[] usersAdmin = new string[] { "toandv1", "toandv2", "admin", "huydq3" };
 
-            if ((LoggedUser == null || LoggedUser.IsAdmin == false) && LoggedUser.UserName != "toandv1"  && LoggedUser.UserName != "toandv2" )
-            {
-                filterContext.Result = RedirectToAction("Logoff", "Account", new { errMsg = errMsg, area="" });
-            }
-            else
+            if (LoggedUser != null && LoggedUser.IsAdmin == true && usersAdmin.Contains(LoggedUser.UserName))
             {
                 ViewBag.LoggedUser = LoggedUser;
                 base.OnAuthorization(filterContext);
+            }
+            else
+            {
+                filterContext.Result = RedirectToAction("Logoff", "Account", new { errMsg = errMsg, area = "" });
             }
         }
     }

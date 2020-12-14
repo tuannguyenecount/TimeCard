@@ -6,6 +6,7 @@ using TimeCard.Services;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace TimeCard.Controllers
 {
@@ -13,7 +14,8 @@ namespace TimeCard.Controllers
     {
         public ActionResult Index()
         {
-            if (SharedContext.Current.LoggedProfile.IsAdmin && (LoginProfile.UserName == "toandv1" || LoginProfile.UserName == "toandv2"))
+            string[] usersAdmin = new string[] { "toandv1", "toandv2", "admin", "huydq3" };
+            if (SharedContext.Current.LoggedProfile.IsAdmin && usersAdmin.Contains(LoginProfile.UserName))
             {
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
