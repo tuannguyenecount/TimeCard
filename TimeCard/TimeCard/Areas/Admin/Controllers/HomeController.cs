@@ -33,9 +33,12 @@ namespace TimeCard.Areas.Admin.Controllers
                 {
                     LoginProfile.BranchList = EOfficeService.current.GetBranchForUser(LoginProfile.UserName, out ErrorResult);
                 }
-                foreach (var branchItem in LoginProfile.BranchList)
+                if (LoginProfile.BranchList != null)
                 {
-                    listUser.AddRange(EOfficeService.current.GetUserBranchTree(branchItem.BranchId, LoginProfile.UserName, out ErrorResult));
+                    foreach (var branchItem in LoginProfile.BranchList)
+                    {
+                        listUser.AddRange(EOfficeService.current.GetUserBranchTree(branchItem.BranchId, LoginProfile.UserName, out ErrorResult));
+                    }
                 }
                 success = true;
                 message = "success";          
@@ -77,10 +80,20 @@ namespace TimeCard.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveCheckInOut(HistoryCheckInModel historyCheckInModel)
+        public ActionResult SaveCheckInOut(FormCollection frm)
         {
             if (ModelState.IsValid)
             {
+                var historyCheckInModel = new HistoryCheckInModel()
+                {
+                    DateCheckIn = frm["DateCheckIn"].ToString(),
+                    DateCheckOut = frm["DateCheckOut"].ToString(),
+                    HistoryId = int.Parse(frm["HistoryId"].ToString()),
+                    NoteCheckIn = frm["NoteCheckIn"].ToString(),
+                    NoteCheckOut = frm["NoteCheckOut"].ToString(),
+                    UserName = frm["UserName"],
+                    Note = frm["Note"].ToString()
+                };
                 ErrorResult = new ErrorModel();
                 try
                 {

@@ -28,8 +28,8 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item has-treeview menu-open">
-                        <a href="@Url.Action("Index", "Home",new { area="Admin" })" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem lại lịch sử điểm danh">
-                            <i class="nav-icon fas fab fa-clock"></i>
+                        <a href="@Url.Action("Index", "Home",new { area="Admin" })" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quản trị điểm danh">
+                            <i class="nav-icon fas fab fa-edit"></i>
                             <p>Quản trị điểm danh</p>
                         </a>
                     </li>
@@ -39,6 +39,12 @@
                             <p>Báo cáo chấm công</p>
                         </a>
                     </li>
+                    @*<li class="nav-item has-treeview menu-open">
+                        <a href="@Url.Action("Index", "Home",new { area="", urlReference = Request.Url.ToString() })" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem lại lịch sử điểm danh cũa tôi">
+                            <i class="nav-icon fas fab fa-clock"></i>
+                            <p>Lịch sử điểm danh của tôi</p>
+                        </a>
+                    </li>*@
                 </ul>
             </nav>
         </div>

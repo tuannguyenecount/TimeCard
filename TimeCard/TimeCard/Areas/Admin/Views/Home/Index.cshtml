@@ -74,6 +74,7 @@
                 <form action="@Url.Action("SaveCheckInOut","Home")" method="post" id="frmSaveCheckInOut">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="HistoryId" value="" id="HistoryId" />
+                    <input type="hidden" name="UserName" id="UserName" />
                     <div class="form-group">
                         <label for="DateCheckIn">Giờ vào làm:</label>
                         <input type="text" class="form-control" value="" name="DateCheckIn" id="DateCheckIn">
@@ -120,6 +121,7 @@
         }
         function SetValueToForm(objHistory) {
             $('#frmSaveCheckInOut').find('#HistoryId').val(objHistory.HistoryId);
+            $('#frmSaveCheckInOut').find('#UserName').val($('select[name=Employee]').val());
             if (objHistory.DateCheckInDecrypt != undefined) {
                 $('#frmSaveCheckInOut').find('#DateCheckIn').val(formatDateTime(objHistory.DateCheckInDecrypt, 'dmy'));
             }

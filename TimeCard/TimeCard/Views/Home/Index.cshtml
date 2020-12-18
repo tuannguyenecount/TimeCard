@@ -66,7 +66,7 @@
     <script src="/Content/AdminLTE/plugins/fullcalendar/locales/vi.js"></script>
 
     <script type="text/javascript">
-        
+
         $(document).on('click', '.fc-day', function () {
             var date = $(this).attr('data-date');
             var objHistory = historyCheckIn.filter(x => formatDate(x.DateCheckInDecrypt,'ymd') == date)[0];
@@ -76,11 +76,14 @@
         });
         $(function () {
             loadData();
+
             function loadData() {
-                _postJson(
-                    '@Url.Action("GetHistoryCheckIn","Home")',
-                    null,
-                    function (ret) {
+                $.ajax({
+                    url: '@Url.Action("GetHistoryCheckIn","Home")',
+                    method: 'Post',
+                    beforeSend: _lockScreen(),
+                    success: function (ret) {
+                        _unlockScreen();
                         var data = [];
                         if (ret.ErrorCode == 1) {
                             var res = JSON.parse(ret.Data);
@@ -109,7 +112,7 @@
                             header: {
                                 left: 'prev,next today',
                                 center: 'title',
-                                 
+
                             },
                             'themeSystem': 'bootstrap',
                             eventRender: function (event, element) {
@@ -120,11 +123,8 @@
                             droppable: false
                         });
                         calendar.render();
-                    },
-                    function (ret) {
-                        _alert('Lỗi');
                     }
-                );
+                });
             }
 
         })

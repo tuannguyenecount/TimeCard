@@ -8,13 +8,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Admin/Views/Home/Index.cshtml">
-      <publishTime>12/12/2020 09:23:25</publishTime>
+      <publishTime>12/18/2020 09:08:38</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Index.cshtml">
       <publishTime>12/12/2020 11:58:14</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/LeftSideMenu.cshtml">
-      <publishTime>12/12/2020 11:57:01</publishTime>
+      <publishTime>12/18/2020 08:33:26</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
       <publishTime>12/08/2020 16:07:47</publishTime>
@@ -314,10 +314,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:04</publishTime>
     </File>
     <File Include="bin/TimeCard.dll">
-      <publishTime>12/14/2020 09:12:56</publishTime>
+      <publishTime>12/18/2020 09:12:31</publishTime>
     </File>
     <File Include="bin/TimeCard.pdb">
-      <publishTime>12/14/2020 09:12:56</publishTime>
+      <publishTime>12/18/2020 09:12:31</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>12/01/2020 09:13:05</publishTime>
@@ -6773,7 +6773,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/07/2020 15:02:12</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>12/07/2020 14:00:52</publishTime>
+      <publishTime>12/18/2020 08:11:13</publishTime>
     </File>
     <File Include="Views/Shared/404.cshtml">
       <publishTime>12/01/2020 09:50:17</publishTime>
@@ -6782,7 +6782,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:03</publishTime>
     </File>
     <File Include="Views/Shared/LeftSideMenu.cshtml">
-      <publishTime>12/08/2020 15:47:47</publishTime>
+      <publishTime>12/18/2020 08:22:18</publishTime>
     </File>
     <File Include="Views/Shared/TopMenu.cshtml">
       <publishTime>12/07/2020 16:08:47</publishTime>

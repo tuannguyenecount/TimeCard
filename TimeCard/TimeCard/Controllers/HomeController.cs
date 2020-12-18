@@ -12,12 +12,15 @@ namespace TimeCard.Controllers
 {
     public partial class HomeController : AuthorizeRequiredController
     {
-        public ActionResult Index()
+        public ActionResult Index(string urlReference)
         {
-            string[] usersAdmin = new string[] { "toandv1", "toandv2", "admin", "huydq3" };
-            if (SharedContext.Current.LoggedProfile.IsAdmin && usersAdmin.Contains(LoginProfile.UserName))
+            if (urlReference == null && SharedContext.Current.LoggedProfile.IsAdmin)
             {
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
+                string[] usersAdmin = new string[] { "huydq3"};
+                if (usersAdmin.Contains(LoginProfile.UserName))
+                {
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                }
             }
             return View();
         }
