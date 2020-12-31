@@ -4,7 +4,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>D:\Publish</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\Publish\TimeCardPublish</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Admin/Views/Home/Index.cshtml">
@@ -17,7 +17,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/18/2020 08:33:26</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
-      <publishTime>12/08/2020 16:07:47</publishTime>
+      <publishTime>12/18/2020 09:26:09</publishTime>
     </File>
     <File Include="Areas/Admin/Views/web.config">
       <publishTime>12/08/2020 09:58:29</publishTime>
@@ -314,10 +314,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:04</publishTime>
     </File>
     <File Include="bin/TimeCard.dll">
-      <publishTime>12/18/2020 09:12:31</publishTime>
+      <publishTime>12/31/2020 15:43:07</publishTime>
     </File>
     <File Include="bin/TimeCard.pdb">
-      <publishTime>12/18/2020 09:12:31</publishTime>
+      <publishTime>12/31/2020 15:43:07</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>12/01/2020 09:13:05</publishTime>
@@ -6770,10 +6770,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 10:01:49</publishTime>
     </File>
     <File Include="Views/Account/Checkin.cshtml">
-      <publishTime>12/07/2020 15:02:12</publishTime>
+      <publishTime>12/07/2020 16:09:12</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>12/18/2020 08:11:13</publishTime>
+      <publishTime>12/18/2020 09:25:56</publishTime>
     </File>
     <File Include="Views/Shared/404.cshtml">
       <publishTime>12/01/2020 09:50:17</publishTime>
@@ -6788,7 +6788,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/07/2020 16:08:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/09/2020 08:23:49</publishTime>
+      <publishTime>12/18/2020 09:26:50</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>12/01/2020 09:13:03</publishTime>
@@ -6800,7 +6800,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/12/2020 08:26:28</publishTime>
+      <publishTime>12/31/2020 15:42:16</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -71,7 +71,7 @@ namespace TimeCard.Controllers
             ViewBag.IsPopup = "1".Equals(Request["popup"]);
 
             var LoggedUser = SharedContext.Current.LoggedProfile;
-            string[] usersAdmin = new string[] { "huydq3" };
+            string[] usersAdmin = System.Configuration.ConfigurationManager.AppSettings["UsersAdmin"].Split(',');
 
             if (LoggedUser != null && LoggedUser.IsAdmin == true && usersAdmin.Contains(LoggedUser.UserName))
             {

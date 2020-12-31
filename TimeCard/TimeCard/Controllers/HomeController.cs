@@ -16,7 +16,7 @@ namespace TimeCard.Controllers
         {
             if (urlReference == null && SharedContext.Current.LoggedProfile.IsAdmin)
             {
-                string[] usersAdmin = new string[] { "huydq3"};
+                string[] usersAdmin = System.Configuration.ConfigurationManager.AppSettings["UsersAdmin"].Split(',');
                 if (usersAdmin.Contains(LoginProfile.UserName))
                 {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
