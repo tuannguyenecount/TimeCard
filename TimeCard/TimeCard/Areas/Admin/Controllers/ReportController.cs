@@ -105,11 +105,13 @@ namespace TimeCard.Areas.Admin.Controllers
             List<Task> tasks = new List<Task>();
             IXLWorksheet wsTemplate;
             wb.TryGetWorksheet("Template", out wsTemplate);
+            int i = 1;
             foreach (var user in listUser) 
             {
-                var ws = wsTemplate.CopyTo(user.UserName);
+                var ws = wsTemplate.CopyTo(i.ToString() + ". " + user.UserName);
                 Task t = SetValueToSheet(ws, user);
                 tasks.Add(t);
+                i++;
             }
             await Task.WhenAll(tasks);
             wb.Worksheets.Delete("Template");
