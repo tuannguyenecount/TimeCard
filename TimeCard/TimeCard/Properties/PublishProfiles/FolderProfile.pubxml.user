@@ -314,10 +314,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:04</publishTime>
     </File>
     <File Include="bin/TimeCard.dll">
-      <publishTime>12/31/2020 16:46:49</publishTime>
+      <publishTime>01/06/2021 08:38:09</publishTime>
     </File>
     <File Include="bin/TimeCard.pdb">
-      <publishTime>12/31/2020 16:46:49</publishTime>
+      <publishTime>01/06/2021 08:38:09</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>12/01/2020 09:13:05</publishTime>
@@ -6782,7 +6782,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:03</publishTime>
     </File>
     <File Include="Views/Shared/LeftSideMenu.cshtml">
-      <publishTime>12/18/2020 08:22:18</publishTime>
+      <publishTime>01/06/2021 08:40:06</publishTime>
     </File>
     <File Include="Views/Shared/TopMenu.cshtml">
       <publishTime>12/07/2020 16:08:47</publishTime>

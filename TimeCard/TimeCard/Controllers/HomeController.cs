@@ -14,14 +14,14 @@ namespace TimeCard.Controllers
     {
         public ActionResult Index(string urlReference)
         {
-            if (urlReference == null && SharedContext.Current.LoggedProfile.IsAdmin)
-            {
-                string[] usersAdmin = System.Configuration.ConfigurationManager.AppSettings["UsersAdmin"].Split(',');
-                if (usersAdmin.Contains(LoginProfile.UserName))
-                {
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
-                }
-            }
+            //if (urlReference == null && SharedContext.Current.LoggedProfile.IsAdmin)
+            //{
+            //    string[] usersAdmin = System.Configuration.ConfigurationManager.AppSettings["UsersAdmin"].Split(',');
+            //    if (usersAdmin.Contains(LoginProfile.UserName))
+            //    {
+            //        return RedirectToAction("Index", "Home", new { area = "Admin" });
+            //    }
+            //}
             return View();
         }
 

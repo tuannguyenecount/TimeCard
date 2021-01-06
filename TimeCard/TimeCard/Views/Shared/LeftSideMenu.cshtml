@@ -56,6 +56,15 @@
                             </a>
                         }
                     </li>
+                    @if (LoggedProfile.IsAdmin && System.Configuration.ConfigurationManager.AppSettings["UsersAdmin"].Split(',').Contains(LoggedProfile.UserName))
+                    {
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="@Url.Action("Index", "Home",new { area = "Admin" })" class="nav-link" data-toggle="tooltip" data-placement="right" title="" data-original-title="Vào trang quản trị" target="_blank">
+                                <i class="nav-icon fas fab fa-user"></i>
+                                <p>Trang Quản Trị</p>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </nav>
         </div>
