@@ -11,7 +11,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/18/2020 09:08:38</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Index.cshtml">
-      <publishTime>12/12/2020 11:58:14</publishTime>
+      <publishTime>01/12/2021 13:20:51</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/LeftSideMenu.cshtml">
       <publishTime>12/18/2020 08:33:26</publishTime>
@@ -314,10 +314,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:04</publishTime>
     </File>
     <File Include="bin/TimeCard.dll">
-      <publishTime>01/06/2021 08:38:09</publishTime>
+      <publishTime>01/12/2021 13:31:10</publishTime>
     </File>
     <File Include="bin/TimeCard.pdb">
-      <publishTime>01/06/2021 08:38:09</publishTime>
+      <publishTime>01/12/2021 13:31:10</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>12/01/2020 09:13:05</publishTime>
@@ -6800,7 +6800,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/31/2020 15:42:16</publishTime>
+      <publishTime>01/12/2021 13:36:06</publishTime>
     </File>
   </ItemGroup>
 </Project>

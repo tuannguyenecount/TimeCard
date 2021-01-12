@@ -26,11 +26,9 @@ namespace TimeCard.Areas.Admin.Controllers
         }
 
         [NonAction]
-        async Task SetValueToSheet(IXLWorksheet ws, eOfficeEmployee user)
+        async Task SetValueToSheet(int month, int year, IXLWorksheet ws, eOfficeEmployee user)
         {
             ws.Cell("B2").Value = "CHI TIẾT CHẤM CÔNG CỦA " + user.FullName.ToUpper();
-            int year = DateTime.Today.Year;
-            int month = DateTime.Today.Month;
             int days = DateTime.DaysInMonth(year, month);
             var rngTable = ws.Range("B2:M" + (4 + days));
             rngTable.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
@@ -109,7 +107,7 @@ namespace TimeCard.Areas.Admin.Controllers
             foreach (var user in listUser) 
             {
                 var ws = wsTemplate.CopyTo(i.ToString() + ". " + user.UserName);
-                Task t = SetValueToSheet(ws, user);
+                Task t = SetValueToSheet(Month, Year, ws, user);
                 tasks.Add(t);
                 i++;
             }
