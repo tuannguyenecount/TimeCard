@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <label>Chọn tháng</label>
                         <select name="Month" class="form-control" required>
-                            @for (int i = 1; i <= DateTime.Today.Month; i++)
+                            @for (int i = 1; i <= 12; i++)
                             {
                                 <option value="@i" @(i == DateTime.Today.Month ? "selected" : "")>@i</option>
                             }
