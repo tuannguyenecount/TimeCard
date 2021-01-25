@@ -11,6 +11,16 @@ namespace TimeCard.Models.System
         public string IPCheckOut { get; set; }
         public string DateCheckIn { get; set; }
         public string DateCheckOut { get; set; }
+        public Nullable<DateTime> DateCheckInDecryptCustom
+        {
+            get;set;
+        }
+        public Nullable<DateTime> DateCheckOutDecryptCustom
+        {
+            get; set;
+        }
+
+
         public Nullable<DateTime> DateCheckInDecrypt
         {
             get

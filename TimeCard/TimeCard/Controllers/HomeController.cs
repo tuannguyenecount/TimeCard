@@ -35,6 +35,11 @@ namespace TimeCard.Controllers
                 historys = SystemService.Current.GetHistoryCheckInByUserName(SharedContext.Current.LoggedProfile.UserName, out ErrorResult);
                 if (historys.Count > 0)
                 {
+                    historys.ForEach(x =>
+                    {
+                        x.DateCheckInDecryptCustom = x.DateCheckInDecrypt;
+                        x.DateCheckOutDecryptCustom = x.DateCheckOutDecrypt;
+                    });
                     ErrorResult.ErrorCode = 1;
                     ErrorResult.ErrorMsg = "Success";
                 }
