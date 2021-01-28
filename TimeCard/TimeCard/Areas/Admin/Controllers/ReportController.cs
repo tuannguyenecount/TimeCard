@@ -94,20 +94,16 @@ namespace TimeCard.Areas.Admin.Controllers
                 ws.Cell(rowSheet1, 4).Value = user.UserName;
                 ws.Cell(rowSheet1, 5).Value = user.BranchName;
                 List<HistoryCheckInModel> historyCheckInModels = SystemService.Current.GetHistoryCheckInByUserName(user.UserName, out ErrorResult);
-                historyCheckInModels.ForEach(x =>
-                {
-                    x.DateCheckInDecryptCustom = x.DateCheckInDecrypt;
-                });
-                var listInMonth = historyCheckInModels.Where(x => x.DateCheckIn != null && x.DateCheckInDecryptCustom.Value.Month == month
-                                    && x.DateCheckInDecryptCustom.Value.Year == year).ToList();
+                var listInMonth = historyCheckInModels.Where(x => x.DateCheckIn_Parse != null && x.DateCheckIn_Parse.Value.Month == month
+                                    && x.DateCheckIn_Parse.Value.Year == year).ToList();
                
                 int index = 6;
                 foreach (DateTime dtime in allDates)
                 {
-                    var historyItem = listInMonth.FirstOrDefault(x => x.DateCheckInDecryptCustom != null && x.DateCheckInDecryptCustom.Value.Date == dtime.Date);
+                    var historyItem = listInMonth.FirstOrDefault(x => x.DateCheckIn_Parse.Value.Date == dtime.Date);
                     if (historyItem != null)
                     {
-                        ws.Cell(rowSheet1, index).Value = "'" + historyItem.DateCheckInDecryptCustom.Value.ToString("HH:mm");
+                        ws.Cell(rowSheet1, index).Value = "'" + historyItem.DateCheckIn_Parse.Value.ToString("HH:mm");
                         if(historyItem.IsLate)
                         {
                             ws.Cell(rowSheet1, index).Style.Fill.BackgroundColor = XLColor.DarkRed;
@@ -132,10 +128,10 @@ namespace TimeCard.Areas.Admin.Controllers
                 wsBCDiTre.Cell(rowSheet2, 5).Value = user.BranchName;
 
                 
-                string dsNgayDiTre = string.Join("\r\n", listDayLate.Select(x => " • " + x.DateCheckInDecryptCustom.Value.ToString("dd/MM")));
+                string dsNgayDiTre = string.Join("\r\n", listDayLate.Select(x => " • " + x.DateCheckIn_Parse.Value.ToString("dd/MM")));
                 wsBCDiTre.Cell(rowSheet2, 6).Value = dsNgayDiTre;
 
-                string dsThoiGianDiTre = string.Join("\r\n", listDayLate.Select(x => " • " + x.DateCheckInDecryptCustom.Value.ToString("HH:mm")));
+                string dsThoiGianDiTre = string.Join("\r\n", listDayLate.Select(x => " • " + x.DateCheckIn_Parse.Value.ToString("HH:mm")));
                 wsBCDiTre.Cell(rowSheet2, 7).Value = dsThoiGianDiTre;
 
                 string dsLyDoDiTre = string.Join("\r\n", listDayLate.Select(x => " • " + x.NoteCheckIn));
@@ -150,39 +146,6 @@ namespace TimeCard.Areas.Admin.Controllers
             //ws.Columns(1, 38).AdjustToContents();
         }
         
-        [NonAction]
-        void SetValueToSheet2(int month, int year, IXLWorksheet ws, List<eOfficeEmployee> listUser)
-        {
-            int row = 5;
-            int stt = 1;
-            //ws.Rows(row, row + listUser.Count).Style.Font.SetFontSize(8);
-            //ws.Rows(row, row + listUser.Count).Style.Font.SetFontName("Arial");
-            //ws.Rows(row, row + listUser.Count).Style.Font.Bold = false;
-            //ws.Range(row, 1, row + listUser.Count, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-            //ws.Range(row, 1, row + listUser.Count - 1, 8).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-            //ws.Range(row, 1, row + listUser.Count - 1, 8).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-            foreach (var user in listUser)
-            {
-                ws.Cell(row, 1).Value = stt.ToString();
-                ws.Cell(row, 2).Value = user.EmployeeNo;
-                ws.Cell(row, 3).Value = user.FullName;
-                ws.Cell(row, 4).Value = user.UserName;
-                ws.Cell(row, 5).Value = user.BranchName;
-                List<HistoryCheckInModel> historyCheckInModels = SystemService.Current.GetHistoryCheckInByUserName(user.UserName, out ErrorResult);
-                string dsNgayDiTre = string.Join("\r\n", historyCheckInModels.Where(x => x.DateCheckIn != null && x.DateCheckInDecrypt.Value.Month == month
-                                    && x.DateCheckInDecrypt.Value.Year == year && x.IsLate == true).Select(x => " - " + x.DateCheckInDecrypt.Value.ToString("dd/MM")));
-                ws.Cell(row, 6).Value = dsNgayDiTre;
-                string dsThoiGianDiTre = string.Join("\r\n", historyCheckInModels.Where(x => x.DateCheckIn != null && x.DateCheckInDecrypt.Value.Month == month
-                                    && x.DateCheckInDecrypt.Value.Year == year && x.IsLate == true).Select(x => " - " + x.DateCheckInDecrypt.Value.ToString("HH:mm")));
-                ws.Cell(row, 7).Value = dsThoiGianDiTre;
-                string dsLyDoDiTre = string.Join("\r\n", historyCheckInModels.Where(x => x.DateCheckIn != null && x.DateCheckInDecrypt.Value.Month == month
-                                    && x.DateCheckInDecrypt.Value.Year == year && x.IsLate == true).Select(x => " - " + x.NoteCheckIn));
-                ws.Cell(row, 8).Value = dsLyDoDiTre;
-                stt++;
-                row++;
-            }
-        }
-
         public ViewResult Index()
         {
             return View();
@@ -223,9 +186,6 @@ namespace TimeCard.Areas.Admin.Controllers
 
             SetTableHeader(Month, Year, ws);
             SetValueToSheet1(Month, Year, ws, wsBCDiTre, listUser);
-
-            //wb.TryGetWorksheet("BC lý do đi làm trễ", out ws);
-            //SetValueToSheet2(Month, Year, ws, listUser);
 
             string tempDir = Server.MapPath("~/Temp");
             string fileName = Path.Combine(tempDir, title + " THÁNG " + month + " NĂM " + Year.ToString() + ".xlsx");

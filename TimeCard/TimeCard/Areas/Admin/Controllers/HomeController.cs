@@ -19,6 +19,46 @@ namespace TimeCard.Areas.Admin.Controllers
             return View();
         }
 
+        public ContentResult UpdateDB()
+        {
+            List<eOfficeEmployee> listUser = new List<eOfficeEmployee>();
+            try
+            {
+                if (LoginProfile.BranchList == null)
+                {
+                    LoginProfile.BranchList = EOfficeService.current.GetBranchForUser(LoginProfile.UserName, out ErrorResult);
+                }
+                if (LoginProfile.BranchList != null)
+                {
+                    foreach (var branchItem in LoginProfile.BranchList)
+                    {
+                        listUser.AddRange(EOfficeService.current.GetUserBranchTree(branchItem.BranchId, LoginProfile.UserName, out ErrorResult));
+                    }
+                }
+                foreach(var user in listUser)
+                {
+                    var historyCheckIns = SystemService.Current.GetHistoryCheckInByUserName(user.UserName, out ErrorResult);
+                    foreach(var historyCheckInModel in historyCheckIns)
+                    {
+                        if (historyCheckInModel.DateCheckInDecrypt != null)
+                        {
+                            historyCheckInModel.DateCheckIn_DTime = historyCheckInModel.DateCheckInDecrypt.Value.ToString("ddMMyyyyHHmmss");
+                        }
+                        if (historyCheckInModel.DateCheckOutDecrypt != null)
+                        {
+                            historyCheckInModel.DateCheckOut_DTime = historyCheckInModel.DateCheckOutDecrypt.Value.ToString("ddMMyyyyHHmmss");
+                        }
+                        SystemService.Current.SaveInformationCheckInOut(historyCheckInModel, LoginProfile.UserName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               
+            }
+            return Content("success");
+        }
+
         [ValidateAntiForgeryToken]
         [HttpPost]
         public JsonResult GetAllUser()
@@ -86,8 +126,8 @@ namespace TimeCard.Areas.Admin.Controllers
             {
                 var historyCheckInModel = new HistoryCheckInModel()
                 {
-                    DateCheckIn = frm["DateCheckIn"].ToString(),
-                    DateCheckOut = frm["DateCheckOut"].ToString(),
+                    DateCheckIn_DTime = frm["DateCheckIn"].ToString(),
+                    DateCheckOut_DTime = frm["DateCheckOut"].ToString(),
                     HistoryId = int.Parse(frm["HistoryId"].ToString()),
                     NoteCheckIn = frm["NoteCheckIn"].ToString(),
                     NoteCheckOut = frm["NoteCheckOut"].ToString(),
@@ -98,48 +138,48 @@ namespace TimeCard.Areas.Admin.Controllers
                 try
                 {
                     DateTime dateCheckIn, dateCheckOut;
-                    if (!string.IsNullOrEmpty(historyCheckInModel.DateCheckIn))
+                    if (!string.IsNullOrEmpty(historyCheckInModel.DateCheckIn_DTime))
                     {
-                        historyCheckInModel.DateCheckIn = historyCheckInModel.DateCheckIn.Trim();
-                        if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        historyCheckInModel.DateCheckIn_DTime = historyCheckInModel.DateCheckIn_DTime.Trim();
+                        if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn_DTime, "dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
                         {
-                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckIn_DTime = dateCheckIn.ToString("ddMMyyyyHHmmss");
                         }
-                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy HH:m", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn_DTime, "dd-MM-yyyy HH:m", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
                         {
-                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckIn_DTime = dateCheckIn.ToString("ddMMyyyyHHmmss");
                         }
-                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy H:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn_DTime, "dd-MM-yyyy H:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
                         {
-                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckIn_DTime = dateCheckIn.ToString("ddMMyyyyHHmmss");
                         }
-                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn, "dd-MM-yyyy H:m", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckIn_DTime, "dd-MM-yyyy H:m", null, System.Globalization.DateTimeStyles.None, out dateCheckIn))
                         {
-                            historyCheckInModel.DateCheckIn = Crypt.Encrypt(dateCheckIn.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckIn_DTime = dateCheckIn.ToString("ddMMyyyyHHmmss");
                         }
                         else
                         {
                             return Content("Thời gian cần đúng định dạng dd-MM-yyyy HH:mm");
                         }
                     }
-                    if (!string.IsNullOrEmpty(historyCheckInModel.DateCheckOut))
+                    if (!string.IsNullOrEmpty(historyCheckInModel.DateCheckOut_DTime))
                     {
-                        historyCheckInModel.DateCheckOut = historyCheckInModel.DateCheckOut.Trim();
-                        if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        historyCheckInModel.DateCheckOut_DTime = historyCheckInModel.DateCheckOut_DTime.Trim();
+                        if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut_DTime, "dd-MM-yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
                         {
-                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckOut_DTime = dateCheckOut.ToString("ddMMyyyyHHmmss");
                         }
-                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy HH:m", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut_DTime, "dd-MM-yyyy HH:m", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
                         {
-                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckOut_DTime = dateCheckOut.ToString("ddMMyyyyHHmmss");
                         }
-                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy H:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut_DTime, "dd-MM-yyyy H:mm", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
                         {
-                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckOut_DTime = dateCheckOut.ToString("ddMMyyyyHHmmss");
                         }
-                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut, "dd-MM-yyyy H:m", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
+                        else if (DateTime.TryParseExact(historyCheckInModel.DateCheckOut_DTime, "dd-MM-yyyy H:m", null, System.Globalization.DateTimeStyles.None, out dateCheckOut))
                         {
-                            historyCheckInModel.DateCheckOut = Crypt.Encrypt(dateCheckOut.ToString("ddMMyyyyHHmmss"));
+                            historyCheckInModel.DateCheckOut_DTime = dateCheckOut.ToString("ddMMyyyyHHmmss");
                         }
                         else
                         {

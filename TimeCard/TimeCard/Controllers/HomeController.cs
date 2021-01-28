@@ -35,11 +35,6 @@ namespace TimeCard.Controllers
                 historys = SystemService.Current.GetHistoryCheckInByUserName(SharedContext.Current.LoggedProfile.UserName, out ErrorResult);
                 if (historys.Count > 0)
                 {
-                    historys.ForEach(x =>
-                    {
-                        x.DateCheckInDecryptCustom = x.DateCheckInDecrypt;
-                        x.DateCheckOutDecryptCustom = x.DateCheckOutDecrypt;
-                    });
                     ErrorResult.ErrorCode = 1;
                     ErrorResult.ErrorMsg = "Success";
                 }
@@ -62,7 +57,7 @@ namespace TimeCard.Controllers
         public ActionResult EditNote([Bind(Include = "HistoryId,NoteCheckIn,NoteCheckOut,Note")]HistoryCheckInModel historyCheckInModel, int IsCheckOut)
         {
             var historyData = SystemService.Current.GetHistoryCheckInByHistoryId(historyCheckInModel.HistoryId, SharedContext.Current.LoggedProfile.UserName, out ErrorResult);
-            if(historyData == null)
+            if (historyData == null)
             {
                 ModelState.AddModelError("", "Dữ liệu này không tồn tại!");
             }
@@ -78,7 +73,7 @@ namespace TimeCard.Controllers
                 {
                     if (IsCheckOut == 1)
                     {
-                        SystemService.Current.CheckOut(historyData.UserName, historyData.DateCheckIn);
+                        SystemService.Current.CheckOut(historyData.UserName, historyData.DateCheckIn_DTime);
                         SystemService.Current.EditNote(historyCheckInModel);
                         return RedirectToAction("Index", "Home");
                     }

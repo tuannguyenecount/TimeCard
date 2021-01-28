@@ -188,7 +188,7 @@
         }
         function SetValueToFormEditNote(objHistory) {
             $('#frmEditNote').find('#HistoryId').val(objHistory.HistoryId);
-            $('#frmEditNote').find('#DateCheckIn').val(formatDate(objHistory.DateCheckInDecrypt.substr(0, 10), 'dmy'));
+            $('#frmEditNote').find('#DateCheckIn').val(formatDate(objHistory.DateCheckIn_Parse.substr(0, 10), 'dmy'));
             $('#frmEditNote').find('#NoteCheckIn').val(objHistory.NoteCheckIn);
             $('#frmEditNote').find('#NoteCheckOut').val(objHistory.NoteCheckOut);
             $('#frmEditNote').find('#Note').val(objHistory.Note);
@@ -213,7 +213,7 @@
         }
         function getCheckInToday() {
             var date = formatDate(new Date(), 'ymd');
-            var objHistory = historyCheckIn.filter(x => formatDate(x.DateCheckInDecrypt, 'ymd') == date)[0];
+            var objHistory = historyCheckIn.filter(x => formatDate(x.DateCheckIn_Parse, 'ymd') == date)[0];
             return objHistory;
         }
         function showPopupEditNoteToDay() {

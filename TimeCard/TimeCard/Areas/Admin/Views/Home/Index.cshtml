@@ -122,14 +122,14 @@
         function SetValueToForm(objHistory) {
             $('#frmSaveCheckInOut').find('#HistoryId').val(objHistory.HistoryId);
             $('#frmSaveCheckInOut').find('#UserName').val($('select[name=Employee]').val());
-            if (objHistory.DateCheckInDecrypt != undefined) {
-                $('#frmSaveCheckInOut').find('#DateCheckIn').val(formatDateTime(objHistory.DateCheckInDecrypt, 'dmy'));
+            if (objHistory.DateCheckIn_Parse != undefined) {
+                $('#frmSaveCheckInOut').find('#DateCheckIn').val(formatDateTime(objHistory.DateCheckIn_Parse, 'dmy'));
             }
             else {
                 $('#frmSaveCheckInOut').find('#DateCheckIn').val('');
             }
-            if (objHistory.DateCheckOutDecrypt != undefined) {
-                $('#frmSaveCheckInOut').find('#DateCheckOut').val(formatDateTime(objHistory.DateCheckOutDecrypt, 'dmy'));
+            if (objHistory.DateCheckOut_Parse != undefined) {
+                $('#frmSaveCheckInOut').find('#DateCheckOut').val(formatDateTime(objHistory.DateCheckOut_Parse, 'dmy'));
             }
             else {
                 $('#frmSaveCheckInOut').find('#DateCheckOut').val('');
@@ -163,8 +163,8 @@
                             for (var i in res) {
                                 var obj = {};
                                 obj.title = res[i].Title;
-                                var fromDate_tem = new Date(res[i].DateCheckInDecrypt);
-                                var toDate_tem = new Date(res[i].DateCheckOutDecrypt);
+                                var fromDate_tem = new Date(res[i].DateCheckIn_Parse);
+                                var toDate_tem = new Date(res[i].DateCheckOut_Parse);
                                 var fromDate = new Date(fromDate_tem.getFullYear(), fromDate_tem.getMonth(), fromDate_tem.getDate(), fromDate_tem.getHours(), fromDate_tem.getMinutes());
                                 var toDate = new Date(toDate_tem.getFullYear(), toDate_tem.getMonth(), toDate_tem.getDate(), toDate_tem.getHours(), toDate_tem.getMinutes());
                                 obj.start = fromDate;
@@ -209,13 +209,15 @@
         });
         $(document).on('click', '.fc-day', function () {
             var date = $(this).attr('data-date');
-            var objHistory = historyCheckIn.filter(x => formatDate(x.DateCheckInDecrypt,'ymd') == date)[0];
+            var objHistory = historyCheckIn.filter(x => formatDate(x.DateCheckIn_Parse,'ymd') == date)[0];
             if (objHistory == null) {
                 var d = new Date();
                 objHistory = {
                     HistoryId: 0,
                     DateCheckInDecrypt: d,
                     DateCheckOutDecrypt: d,
+                    DateCheckIn_Parse: d,
+                    DateCheckOut_Parse: d,
                     NoteCheckIn: '',
                     NoteCheckOut: '',
                     Note: ''

@@ -8,7 +8,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Admin/Views/Home/Index.cshtml">
-      <publishTime>12/18/2020 09:08:38</publishTime>
+      <publishTime>01/28/2021 11:21:45</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Index.cshtml">
       <publishTime>01/12/2021 13:20:51</publishTime>
@@ -314,10 +314,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:04</publishTime>
     </File>
     <File Include="bin/TimeCard.dll">
-      <publishTime>01/25/2021 16:54:22</publishTime>
+      <publishTime>01/28/2021 11:41:33</publishTime>
     </File>
     <File Include="bin/TimeCard.pdb">
-      <publishTime>01/25/2021 16:54:22</publishTime>
+      <publishTime>01/28/2021 11:41:33</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>12/01/2020 09:13:05</publishTime>
@@ -6773,7 +6773,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/07/2020 16:09:12</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>01/25/2021 14:58:34</publishTime>
+      <publishTime>01/28/2021 11:06:39</publishTime>
     </File>
     <File Include="Views/Shared/404.cshtml">
       <publishTime>12/01/2020 09:50:17</publishTime>
@@ -6788,7 +6788,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/07/2020 16:08:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/18/2020 09:26:50</publishTime>
+      <publishTime>01/28/2021 11:07:11</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>12/01/2020 09:13:03</publishTime>
@@ -6800,7 +6800,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/01/2020 09:13:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/25/2021 16:57:31</publishTime>
+      <publishTime>01/28/2021 11:41:34</publishTime>
     </File>
   </ItemGroup>
 </Project>

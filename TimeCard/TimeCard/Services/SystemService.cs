@@ -68,7 +68,7 @@ namespace TimeCard.Services
             errorModel = new ErrorModel();
             try
             {
-                string dateCheckIn = Crypt.Encrypt(DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                string dateCheckIn_DTime = DateTime.Now.ToString("ddMMyyyyHHmmss");
 
                 DBHelper db = new DBHelper(GlobalInfo.PKG_TMS_CHECKINOUT + ".sp_checkin", userName)
                     .addParamOutput("oResult")
@@ -77,8 +77,8 @@ namespace TimeCard.Services
                     {
                         UserName = userName,
                         IPCheckIn = GetIp(),
-                        DateCheckIn = dateCheckIn,
-                        NoteCheckIn = noteCheckin
+                        DateCheckIn_DTime = dateCheckIn_DTime,
+                        NoteCheckIn = noteCheckin,
                     }))
                     .ExecuteStore();
 
@@ -157,14 +157,15 @@ namespace TimeCard.Services
         {
             try
             {
-                string sDateCheckOut = Crypt.Encrypt(DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                string sDateCheckOut = DateTime.Now.ToString("ddMMyyyyHHmmss");
+
                 DBHelper db = new DBHelper(GlobalInfo.PKG_TMS_CHECKINOUT + ".sp_checkout", userName)
                     .addParamOutput("oResult")
                     .addParam("pUserName", userName)
                     .addParam("pJson", JsonHelper.Serialize(new { 
                         UserName = userName,
-                        DateCheckIn = sDateCheckIn,
-                        DateCheckOut = sDateCheckOut,
+                        DateCheckIn_DTime = sDateCheckIn,
+                        DateCheckOut_DTime = sDateCheckOut,
                         IPCheckOut = GetIp()
                     }))
                     .ExecuteStore();

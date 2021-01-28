@@ -45,7 +45,7 @@ namespace TimeCard.Controllers
                     {
                         
                         var lst = SystemService.Current.GetHistoryCheckInByUserName(model.Username, out ErrorResult);
-                        var checkHaveCheckIn = lst.Any(x => x.DateCheckInDecrypt != null && x.DateCheckInDecrypt.Value.Date == DateTime.Today.Date);
+                        var checkHaveCheckIn = lst.Any(x => x.DateCheckIn_Parse != null && x.DateCheckIn_Parse.Value.Date == DateTime.Today.Date);
                         if (checkHaveCheckIn == false)
                         {
                             SystemService.Current.Checkin(model.Username, model.NoteCheckIn, out ErrorResult);

@@ -91,8 +91,8 @@
                             for (var i in res) {
                                 var obj = {};
                                 obj.title = res[i].Title;
-                                var fromDate_tem = new Date(res[i].DateCheckInDecryptCustom);
-                                var toDate_tem = new Date(res[i].DateCheckOutDecryptCustom);
+                                var fromDate_tem = new Date(res[i].DateCheckIn_Parse);
+                                var toDate_tem = new Date(res[i].DateCheckOut_Parse);
                                 var fromDate = new Date(fromDate_tem.getFullYear(), fromDate_tem.getMonth(), fromDate_tem.getDate(), fromDate_tem.getHours(), fromDate_tem.getMinutes());
                                 var toDate = new Date(toDate_tem.getFullYear(), toDate_tem.getMonth(), toDate_tem.getDate(), toDate_tem.getHours(), toDate_tem.getMinutes());
                                 obj.start = fromDate;
