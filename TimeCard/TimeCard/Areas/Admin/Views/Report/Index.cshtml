@@ -19,7 +19,7 @@
                 <form class="form-inline" action="@Url.Action("ExportExcel")" method="post" id="frmExportExcel">
                     @Html.AntiForgeryToken()
                     <div class="form-group">
-                        <label>Chọn tháng</label>
+                        <label>Chọn tháng &nbsp;</label>
                         <select name="Month" class="form-control" required>
                             @for (int i = 1; i <= 12; i++)
                             {
@@ -29,7 +29,7 @@
                     </div>
                     &nbsp; &nbsp;
                     <div class="form-group">
-                        <label>Chọn năm</label>
+                        <label>Chọn năm &nbsp;</label>
                         <select name="Year" class="form-control" required>
                             @for (int i = 2020; i <= DateTime.Today.Year; i++)
                             {
@@ -45,7 +45,7 @@
                     <div class="card-body p-0">
                         <div class="col-md-12">
                             <br/>
-                            <p class="text-danger">Lưu ý: Thời gian xuất file có thể kéo dài 3-5 phút.</p>
+                            <p class="text-danger">Lưu ý: Thời gian xuất file có thể kéo dài 1-2 phút.</p>
                         </div>
                     </div>
                 </div>
